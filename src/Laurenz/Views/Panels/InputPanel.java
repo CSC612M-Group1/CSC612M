@@ -7,6 +7,8 @@ import java.awt.*;
 
 import static javax.swing.BorderFactory.*;
 
+/* TEST LAURENZ WAS HERE */
+
 public class InputPanel
 {
 	/* Main Stuff */
