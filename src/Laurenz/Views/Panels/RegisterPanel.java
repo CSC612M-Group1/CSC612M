@@ -38,13 +38,16 @@ public class RegisterPanel
 
 	public void createTable()
 	{
+		TableColumnModel tcm;
 		JScrollPane jScrollPane;
 
 		registerTable 	= new RegisterTable(mw);
 		jTable 			= new JTable(registerTable);
+		tcm 			= jTable.getColumnModel();
 		jScrollPane		= new JScrollPane(jTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-
+		tcm.getColumn(0).setPreferredWidth(40);
+		tcm.getColumn(1).setPreferredWidth(200);
 		jScrollPane.setSize( jPanel.getSize() );
 		jTable.setShowGrid(true);
 		jPanel.add(jScrollPane);

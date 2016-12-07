@@ -1,8 +1,13 @@
 package Laurenz.Views.Panels;
 
+import Laurenz.Models.InternalRegister;
+import Laurenz.Models.InternalRegisterTable;
 import Laurenz.Views.MainWindow;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
+import javax.swing.table.TableColumnModel;
 import java.awt.*;
 
 /**
@@ -15,6 +20,8 @@ public class InternalRegisterPanel
 	private InternalRegisterPanel internalRegisterPanel;
 	/* JStuff */
 	private JPanel jPanel;
+	private JTable table;
+	private InternalRegisterTable tableModel;
 
 	public InternalRegisterPanel(MainWindow mw)
 	{
@@ -27,13 +34,26 @@ public class InternalRegisterPanel
 		JLabel imageLabel = new JLabel();
 		jPanel = new JPanel();
 		jPanel.setLayout( new BorderLayout() );
-		jPanel.setBorder( BorderFactory.createTitledBorder("Corgi Panel") );
+		Border b = BorderFactory.createLineBorder(Color.black);
+		TitledBorder title = BorderFactory.createTitledBorder(
+				b, "Internal Registers", TitledBorder.CENTER, TitledBorder.TOP);
+		jPanel.setBorder(title);
 
-		// add the image label
-		ImageIcon ii = new ImageIcon(this.getClass().getResource(
-				"corgi-walk.gif"));
-		imageLabel.setIcon(ii);
-		jPanel.add(imageLabel, java.awt.BorderLayout.CENTER);
+
+		tableModel = new InternalRegisterTable(mw);
+		table = new JTable(tableModel);
+		table.setFont(new Font("Courier", Font.PLAIN, 12));
+		table.setTableHeader(null);
+		// table.setShowGrid(false);
+		TableColumnModel tcm = table.getColumnModel();
+		tcm.getColumn(0).setPreferredWidth(5);
+		tcm.getColumn(1).setPreferredWidth(100);
+		tcm.getColumn(2).setPreferredWidth(500);
+
+		JScrollPane scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollPane.setSize(jPanel.getSize());
+		jPanel.add(scrollPane);
 	}
 
 	public MainWindow getMw() {
@@ -44,8 +64,8 @@ public class InternalRegisterPanel
 		this.mw = mw;
 	}
 
-	public InternalRegisterPanel getInternalRegisterPanel() {
-		return internalRegisterPanel;
+	public InternalRegister getInternalRegister(){
+		return tableModel.getInternalRegisters();
 	}
 
 	public void setInternalRegisterPanel(InternalRegisterPanel internalRegisterPanel) {
