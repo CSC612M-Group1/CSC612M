@@ -8,28 +8,27 @@ public class InternalRegister
 	String[][] InternalRegisterArray;
 
 	public InternalRegister() {
-		InternalRegisterArray = new String[16][3];
+		InternalRegisterArray = new String[15][3];
 		InternalRegisterArray[0][0] = "IF";
 		InternalRegisterArray[3][0] = "ID";
-		InternalRegisterArray[8][0] = "EX";
-		InternalRegisterArray[12][0] = "MEM";
-		InternalRegisterArray[15][0] = "WB";
-		InternalRegisterArray[0][1] = "IF/ID.IR=";
-		InternalRegisterArray[1][1] = "IF/ID.NPC=";
-		InternalRegisterArray[2][1] = "PC=";
-		InternalRegisterArray[3][1] = "ID/EX.A=";
-		InternalRegisterArray[4][1] = "ID/EX.B=";
-		InternalRegisterArray[5][1] = "ID/EX.IMM=";
-		InternalRegisterArray[6][1] = "ID/EX.IR=";
-		InternalRegisterArray[7][1] = "ID/EX.NPC=";
-		InternalRegisterArray[8][1] = "EX/MEM.ALUOutput=";
-		InternalRegisterArray[9][1] = "EX/MEM.COND=";
-		InternalRegisterArray[10][1] = "EX/MEM.IR=";
-		InternalRegisterArray[11][1] = "EX/MEM.B=";
-		InternalRegisterArray[12][1] = "MEM/WB.LMD=";
-		InternalRegisterArray[13][1] = "MEM/WB.IR=";
-		InternalRegisterArray[14][1] = "MEM/WB.ALUOutput=";
-		InternalRegisterArray[15][1] = "Rn=";
+		InternalRegisterArray[7][0] = "EX";
+		InternalRegisterArray[11][0] = "MEM";
+		InternalRegisterArray[14][0] = "WB";
+		InternalRegisterArray[0][1] = "IF/ID.IR =";
+		InternalRegisterArray[1][1] = "IF/ID.NPC =";
+		InternalRegisterArray[2][1] = "PC =";
+		InternalRegisterArray[3][1] = "ID/EX.A =";
+		InternalRegisterArray[4][1] = "ID/EX.B =";
+		InternalRegisterArray[5][1] = "ID/EX.IMM =";
+		InternalRegisterArray[6][1] = "ID/EX.IR =";
+		InternalRegisterArray[7][1] = "EX/MEM.ALUOutput =";
+		InternalRegisterArray[8][1] = "EX/MEM.COND =";
+		InternalRegisterArray[9][1] = "EX/MEM.IR =";
+		InternalRegisterArray[10][1] = "EX/MEM.B =";
+		InternalRegisterArray[11][1] = "MEM/WB.LMD =";
+		InternalRegisterArray[12][1] = "MEM/WB.IR =";
+		InternalRegisterArray[13][1] = "MEM/WB.ALUOutput =";
+		InternalRegisterArray[14][1] = "Rn =";
 		for (int i = 0; i < InternalRegisterArray.length; i++) {
 			InternalRegisterArray[i][2] = null;
 		}
@@ -95,75 +94,67 @@ public class InternalRegister
 		InternalRegisterArray[6][2] = value;
 	}
 
-	public String getIDEXNPC() {
-		return InternalRegisterArray[7][2];
-	}
-
-	public void setIDEXNPC(String value) {
+	public void setEXMEMALUOutput(String value) {
 		InternalRegisterArray[7][2] = value;
 	}
 
-	public void setEXMEMALUOutput(String value) {
-		InternalRegisterArray[8][2] = value;
-	}
-
 	public String getEXMEMALUOutput() {
-		return InternalRegisterArray[8][2];
+		return InternalRegisterArray[7][2];
 	}
 
 	public String getEXMEMCond() {
-		return InternalRegisterArray[9][2];
+		return InternalRegisterArray[8][2];
 	}
 
 	public void setEXMEMCond(String value) {
-		InternalRegisterArray[9][2] = value;
+		InternalRegisterArray[8][2] = value;
 	}
 
 	public String getEXMEMIR() {
-		return InternalRegisterArray[10][2];
+		return InternalRegisterArray[9][2];
 	}
 
 	public void setEXMEMIR(String value) {
-		InternalRegisterArray[10][2] = value;
+		InternalRegisterArray[9][2] = value;
 	}
 
 	public String getEXMEMB() {
-		return InternalRegisterArray[11][2];
+		return InternalRegisterArray[10][2];
 	}
 
 	public void setEXMEMB(String value) {
-		InternalRegisterArray[11][2] = value;
+		InternalRegisterArray[10][2] = value;
 	}
 
 	public String getMEMWBLMD() {
-		return InternalRegisterArray[12][2];
+		return InternalRegisterArray[11][2];
 	}
 
 	public void setMEMWBLMD(String value) {
-		InternalRegisterArray[12][2] = value;
+		InternalRegisterArray[11][2] = value;
 	}
 
 	public String getMEMWBIR() {
-		return InternalRegisterArray[13][2];
+		return InternalRegisterArray[12][2];
 	}
 
 	public void setMEMWBIR(String value) {
-		InternalRegisterArray[13][2] = value;
+		InternalRegisterArray[12][2] = value;
 	}
 
 	public String getMEMWBALUOutput() {
-		return InternalRegisterArray[14][2];
+		return InternalRegisterArray[13][2];
 	}
 
 	public void setMEMWBALUOutput(String value) {
-		InternalRegisterArray[14][2] = value;
+		InternalRegisterArray[13][2] = value;
 	}
 
 	public String getRn() {
-		return InternalRegisterArray[15][2];
+		return InternalRegisterArray[14][2];
 	}
 
 	public void setRn(String value) {
-		InternalRegisterArray[15][2] = value;
+		InternalRegisterArray[14][2] = value;
 	}
 }

@@ -46,8 +46,8 @@ public class CodePanel
 		jScrollPane = new JScrollPane(jTable);
 		tcm 		= jTable.getColumnModel();
 
-		tcm.getColumn(0).setPreferredWidth(10);
-		tcm.getColumn(1).setPreferredWidth(10);
+		tcm.getColumn(0).setPreferredWidth(60);
+		tcm.getColumn(1).setPreferredWidth(100);
 		tcm.getColumn(2).setPreferredWidth(100);
 		tcm.getColumn(3).setPreferredWidth(400);
 

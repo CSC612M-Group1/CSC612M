@@ -6,6 +6,7 @@ public class Instruction
 	private String line;
 	private String command;
 	private String opcode;
+	private String hexOpcode;
 	private String rd;
 	private String rs;
 	private String rt;
@@ -13,6 +14,15 @@ public class Instruction
 	private String offset;
 	private String base;
 	private String label;
+
+	/* Store status of pipeline stages */
+	private boolean fetchFinished = false;
+	private boolean decodeFinished = false;
+	private int executeFinished = 0;
+	private boolean memoryFinished = false;
+	private boolean writebackFinished = false;
+	private int writebackFinishedAtCycleNumber = -1;
+
 	public Instruction(int index, String line, String command, String opcode, String rd, String rs, String rt, String imm, String offset, String base)
 	{
 		this.index = index;
@@ -25,6 +35,58 @@ public class Instruction
 		this.imm = imm;
 		this.offset = offset;
 		this.base = base;
+	}
+
+	public boolean isFetchFinished() { return fetchFinished; }
+
+	public void setFetchFinished(boolean fetchFinished) { this.fetchFinished = fetchFinished; }
+
+	public boolean isDecodeFinished() {
+		return decodeFinished;
+	}
+
+	public void setDecodeFinished(boolean decodeFinished) {
+		this.decodeFinished = decodeFinished;
+	}
+
+	public int getExecuteFinished() {
+		return executeFinished;
+	}
+
+	public void setExecuteFinished(int exFinished) {
+		this.executeFinished = executeFinished;
+	}
+
+	public boolean isMemoryFinished() {
+		return memoryFinished;
+	}
+
+	public void setMemoryFinished(boolean memoryFinished) {
+		this.memoryFinished = memoryFinished;
+	}
+
+	public boolean isWritebackFinished() {
+		return writebackFinished;
+	}
+
+	public void setWritebackFinished(boolean writebackFinished) {
+		this.writebackFinished = writebackFinished;
+	}
+
+	public int getWritebackFinishedAtCycleNumber() {
+		return writebackFinishedAtCycleNumber;
+	}
+
+	public void setWritebackFinishedAtCycleNumber(int writebackFinishedAtCycleNumber) {
+		this.writebackFinishedAtCycleNumber = writebackFinishedAtCycleNumber;
+	}
+
+	public void resetPipelineStatus() {
+		fetchFinished = false;
+		decodeFinished = false;
+		executeFinished = 0;
+		memoryFinished = false;
+		writebackFinished = false;
 	}
 
 	public int getIndex() {
@@ -57,6 +119,14 @@ public class Instruction
 
 	public void setOpcode(String opcode) {
 		this.opcode = opcode;
+	}
+
+	public String getHexOpcode() {
+		return hexOpcode;
+	}
+
+	public void setHexOpcode(String hexOpcode) {
+		this.hexOpcode = hexOpcode;
 	}
 
 	public String getRd() {

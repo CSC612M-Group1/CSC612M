@@ -46,8 +46,8 @@ public class InternalRegisterPanel
 		table.setTableHeader(null);
 		// table.setShowGrid(false);
 		TableColumnModel tcm = table.getColumnModel();
-		tcm.getColumn(0).setPreferredWidth(5);
-		tcm.getColumn(1).setPreferredWidth(100);
+		tcm.getColumn(0).setPreferredWidth(60);
+		tcm.getColumn(1).setPreferredWidth(300);
 		tcm.getColumn(2).setPreferredWidth(500);
 
 		JScrollPane scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
