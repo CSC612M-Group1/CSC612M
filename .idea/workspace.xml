@@ -1,25 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="56f11848-5691-4d2d-8f2b-0de74ca3d150" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Laurenz/Controllers/RegisterController.java" />
+    <list default="true" id="56f11848-5691-4d2d-8f2b-0de74ca3d150" name="Default" comment="[DEC 10 - 3:57]" />
+    <list id="bcf79a20-fe38-41c3-9b7c-bfcb05ecb568" name="please update" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CSC612M/Laurenz/Controllers/MIPSModules/OpcodeMaker.class" afterPath="$PROJECT_DIR$/out/production/CSC612M/Laurenz/Controllers/MIPSModules/OpcodeMaker.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CSC612M/Laurenz/Models/CodeTable.class" afterPath="$PROJECT_DIR$/out/production/CSC612M/Laurenz/Models/CodeTable.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CSC612M/Laurenz/Models/RegisterTable.class" afterPath="$PROJECT_DIR$/out/production/CSC612M/Laurenz/Models/RegisterTable.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CSC612M/Laurenz/Views/Panels/CodePanel.class" afterPath="$PROJECT_DIR$/out/production/CSC612M/Laurenz/Views/Panels/CodePanel.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CSC612M/Laurenz/Views/Panels/InputPanel.class" afterPath="$PROJECT_DIR$/out/production/CSC612M/Laurenz/Views/Panels/InputPanel.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Laurenz/Controllers/MIPSModules/OpcodeMaker.java" afterPath="$PROJECT_DIR$/src/Laurenz/Controllers/MIPSModules/OpcodeMaker.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Laurenz/Models/CodeTable.java" afterPath="$PROJECT_DIR$/src/Laurenz/Models/CodeTable.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Laurenz/Models/RegisterTable.java" afterPath="$PROJECT_DIR$/src/Laurenz/Models/RegisterTable.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Laurenz/Views/Panels/CodePanel.java" afterPath="$PROJECT_DIR$/src/Laurenz/Views/Panels/CodePanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Laurenz/Views/Panels/RegisterPanel.java" afterPath="$PROJECT_DIR$/src/Laurenz/Views/Panels/RegisterPanel.java" />
     </list>
     <ignored path="CSC612M.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <file path="$PROJECT_DIR$/.idea/workspace.xml" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,8 +70,8 @@
           <file leaf-file-name="CodeController.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/Laurenz/Controllers/CodeController.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="209">
-                  <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+                <state relative-caret-position="304">
+                  <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -147,7 +143,7 @@
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectView">
-    <navigator proportions="" version="1">
+    <navigator currentView="PackagesPane" proportions="" version="1">
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -160,7 +156,27 @@
       <manualOrder />
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes />
+    <panes>
+      <pane id="ProjectPane">
+        <subPane />
+      </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CSC612M-Group1" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CSC612M" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+    </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$/libs/swingx-all-1.6.3.jar!/" />
@@ -629,6 +645,7 @@
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="56f11848-5691-4d2d-8f2b-0de74ca3d150" name="Default" comment="" />
+      <changelist id="bcf79a20-fe38-41c3-9b7c-bfcb05ecb568" name="please update" comment="" />
       <created>1480671231462</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -637,7 +654,7 @@
       <workItem from="1481012013936" duration="733000" />
       <workItem from="1481273680042" duration="2181000" />
       <workItem from="1481279644104" duration="2687000" />
-      <workItem from="1481356311162" duration="217000" />
+      <workItem from="1481356311162" duration="367000" />
     </task>
     <task id="LOCAL-00001" summary="Test">
       <created>1481012107325</created>
@@ -646,11 +663,18 @@
       <option name="project" value="LOCAL" />
       <updated>1481012107325</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="[DEC 10 - 3:57]">
+      <created>1481356758148</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1481356758148</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="6287000" />
+    <option name="totallyTimeSpent" value="6437000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="2560" height="1080" extended-state="0" />
@@ -696,7 +720,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Test" />
-    <option name="LAST_COMMIT_MESSAGE" value="Test" />
+    <MESSAGE value="[DEC 10 - 3:57]" />
+    <option name="LAST_COMMIT_MESSAGE" value="[DEC 10 - 3:57]" />
+    <option name="PRESELECT_EXISTING_CHANGELIST" value="false" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -711,6 +737,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -718,6 +745,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="475">
           <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -748,6 +776,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="133">
           <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -755,6 +784,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -805,6 +835,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="133">
           <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -812,6 +843,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -839,6 +871,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="133">
           <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -854,6 +887,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="305">
           <caret line="38" column="36" selection-start-line="38" selection-start-column="36" selection-end-line="38" selection-end-column="36" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -868,6 +902,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1786">
           <caret line="100" column="9" selection-start-line="100" selection-start-column="9" selection-end-line="100" selection-end-column="9" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -875,6 +910,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="361">
           <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -902,6 +938,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="133">
           <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -972,8 +1009,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Laurenz/Controllers/CodeController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+        <state relative-caret-position="304">
+          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
           <folding />
         </state>
       </provider>
