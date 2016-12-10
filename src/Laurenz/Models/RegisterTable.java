@@ -1,5 +1,6 @@
 package Laurenz.Models;
 
+import Laurenz.GeneralUtility.Print;
 import Laurenz.Views.MainWindow;
 import org.apache.commons.lang3.StringUtils;
 
@@ -13,6 +14,7 @@ import java.math.BigInteger;
 public class RegisterTable extends AbstractTableModel
 {
 	MainWindow mw;
+	private boolean[][] editable_cells;
 	private String[][] registersString;
 	private Register[] registers;
 
@@ -59,7 +61,18 @@ public class RegisterTable extends AbstractTableModel
 		return registersString[rowIndex][columnIndex];
 	}
 
-	public void setValueAt(Object val, int row, int col)
+	@Override
+	public boolean isCellEditable(int row, int column)
+	{ 	// custom isCellEditable function
+		setCellEditable(row, column, true);
+		return true;
+	}
+
+	public void setCellEditable(int row, int col, boolean value) {
+		this.fireTableCellUpdated(row, col);
+	}
+
+	public void setValueAt(String val, int row, int col)
 	{
 		String value = val.toString();
 		value 		 = StringUtils.leftPad(value, 16, "0");
