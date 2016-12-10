@@ -44,44 +44,86 @@ public class OpcodeMaker
 		return updatedInstructions;
 	}
 
-//	"OR", "DSUBU", "SLT", "NOP",
-//			"BNE", "LD", "SD", "SW", "DADDIU",
-//			"J"
+	//	"OR", "DSUBU", "SLT", "NOP",
+	//			"BNE", "LD", "SD", "SW", "DADDIU",
+	//			"J"
 
 	public String setHexOpcode(int i, Instruction instruction)
 	{
-		String opcode, command, rs = "" ,rd = "", rt = "", imm = "", hexOpcode = "", func = "";
+		String opcode = "______", command, rs = "" ,rd = "", rt = "", imm = "", hexOpcode = "", func = "", instr_index = "";
 		int opcodeDecimal = 0;
 
 		command = instruction.getCommand();
 
 		/* list down all opcodes */
+
 		/*
 		* please follow the format below in DADDIU
-		* */
-		if( command.equalsIgnoreCase("DADDIU") )
+		*/
+
+		/* I TYPE COMMANDS */
+		if( command.equalsIgnoreCase( "DADDIU" ) || command.equalsIgnoreCase( "BNE" ) || command.equalsIgnoreCase( "SD" ) || command.equalsIgnoreCase( "LD ") || command.equalsIgnoreCase( "SW" ) )
 		{
-			opcodeDecimal = 25; // decimal equivalent of the opcode
-			opcode 	= StringUtils.leftPad( Integer.toBinaryString(opcodeDecimal), 6, "0");
+			if( command.equalsIgnoreCase( "DADDIU" ) )
+			{
+				opcode  = "011001";
+			}
+			else if ( command.equalsIgnoreCase( "BNE" ) )
+			{
+				opcode	= "000101";
+			}
+			else if ( command.equalsIgnoreCase( "SD" ) )
+			{
+				opcode 	= "111111";
+			}
+			else if ( command.equalsIgnoreCase( "SW") )
+			{
+				opcode  = "101011";
+			}
+			else if ( command.equalsIgnoreCase( "LD" ) )
+			{
+				opcode  = "110111";
+			}
+
 			rs 		= getRsToBinary( instruction.getRs(), 5 );
 			rt 		= "";
 			rd 		= getRsToBinary( instruction.getRd(), 5);
 			imm		= convertHexToBinary( instruction.getImm(), 16);
-
-			// hexOpcode = opcode + rs + rd + imm;
-
 		}
-		else if ( command.equalsIgnoreCase("DSUBU") )
+		/* R TYPE COMMANDS */
+		else if ( command.equalsIgnoreCase( "DSUBU" ) || command.equalsIgnoreCase( "SLT" ) || command.equalsIgnoreCase( "OR" ) )
 		{
+			if( command.equalsIgnoreCase( "DSUBU" ) )
+			{
+				func = "101111";
+			}
+			else if ( command.equalsIgnoreCase( "SLT" ) )
+			{
+				func = "101010";
+			}
+			else if ( command.equalsIgnoreCase( "OR" ) )
+			{
+				func = "100101";
+			}
 			opcode	= "000000";
 			rs 		= getRsToBinary( instruction.getRs(), 5);
 			rt 		= getRsToBinary( instruction.getRt(), 5);
 			rd 		= getRsToBinary( instruction.getRd(), 5);
 			imm 	= "00000";
-			func 	= "101111";
+
 		}
+		/* J TYPE COMMANDS */
+		else if ( command.equalsIgnoreCase( "J" ) )
+		{
+			opcode 	= "000010";
+			rs 		= "00000";
+			rt 		= "00000";
+			imm		= "0000000000000000";
+		}
+		/* ELSE */
 		else
 		{
+
 			hexOpcode = "NaN";
 			opcode = "";
 			rs = "";
