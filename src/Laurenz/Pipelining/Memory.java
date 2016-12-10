@@ -2,11 +2,10 @@ package Laurenz.Pipelining;
 
 import Laurenz.Models.Instruction;
 import Laurenz.Models.InternalRegister;
-import controller.MemoryController;
-import controller.PipelineMapController;
+import Laurenz.Controllers.MIPSModules.MemoryController;
+import Laurenz.Controllers.MIPSModules.PipelineMapController;
 import org.apache.commons.lang3.StringUtils;
 import Laurenz.Controllers.MIPSModules.OpcodeMaker;
-import Laurenz.Pipelining.UpdatedPipeline;
 
 import java.util.NoSuchElementException;
 
@@ -14,55 +13,42 @@ public class Memory extends RunPipeline {
 
 	private OpcodeMaker opcodeMaker = new OpcodeMaker();
 
-	public Memory(InternalRegister ir, UpdatedPipeline pipelineService) {
-		super(ir, pipelineService);
+	public Memory(InternalRegister ir, UpdatedPipeline pipelining) {
+		super(ir, pipelining);
 	}
 
 	@Override
 	public void run(int cycleNumber) {
 		try {
 			Instruction peek = queue.peekFirst();
-			if (peek != null && isExFinished(peek)) {
-				Instruction ins = queue.remove();
+			/* MEMORY START! */
+			if (peek != null && peek.getExecuteFinished() == 1) {
+				/* Get instruction from queue */
+				Instruction inst = queue.remove();
 
-				String command = ins.getCommand().toUpperCase();
-
+				String command = inst.getCommand().toUpperCase();
 				ir.setMEMWBIR(ir.getEXMEMIR());
 				ir.setMEMWBALUOutput(ir.getEXMEMALUOutput());
-				if (command.equals("LD")) { // Check length from LW to LD
+
+				if (command.equals("LD")) {
+					/* Just getting the whole value in the designated memory/ies */
 					String memHex = MemoryController.getHexWordFromMemory(ir.getEXMEMALUOutput());
-					String memValBin = opcodeMaker.convertHexToBinary(memHex, 32);
-					String padChar = "0";
-					if (command.equals("LD")) // Check length from LW to LD
-						padChar = memValBin.substring(0, 1);
-					memValBin = StringUtils.leftPad(memValBin, 64, padChar);
-					String hex = opcodeMaker.convertBinaryToHex(memValBin).toUpperCase();
-					ir.setMEMWBLMD(hex);
+					// Add in the controller error handling restricting values that are out of bounds of the memory.
+					// base + offset (the value in the register pointed) answer should be divisible by 8 hex
+					// Change from word = word.substring(word.length()-16, word.length()); or word = word.substring(0, word.length());
+					ir.setMEMWBLMD(memHex);
 				} else if (command.equals("SD")) {
-					String word = ir.getEXMEMB().substring(8, 16); // Check length from LW to LD
+					String word = ir.getEXMEMB().substring(0, 16);
 					MemoryController.storeWordToMemory(word, ir.getEXMEMALUOutput());
 				}
 
-				PipelineMapController.setMapValue("MEM", ins.getIndex(), cycleNumber);
-				ins.setMemoryFinished(true);
+				/* Current instruction processing is finished, add to pipeline map */
+				PipelineMapController.setMapValue("MEM", inst.getIndex(), cycleNumber);
+				inst.setMemoryFinished(true);
 			}
 
 		} catch (NoSuchElementException e) {
 
 		}
-	}
-
-
-	// Not gonna use this I guess. Still thinking of the purpose of such functionessssusususussuusuaaaaaa
-	private boolean isExFinished(Instruction peek) {
-		if (peek.getCommand().equals("MUL.S") && peek.getExecuteFinished() == 6)
-			return true;
-		else if (peek.getCommand().equals("ADD.S") && peek.getExecuteFinished() == 4)
-			return true;
-		else if (!peek.getCommand().equals("MUL.S") && !peek.getCommand().equals("ADD.S") && peek.getExecuteFinished() == 1)
-			return true;
-		else
-			return false;
-
 	}
 }

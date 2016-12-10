@@ -18,7 +18,7 @@ public class Instruction
 	/* Store status of pipeline stages */
 	private boolean fetchFinished = false;
 	private boolean decodeFinished = false;
-	private int executeFinished = 0;
+	private int executeFinished = 0; // Tried having different executions for Branching and Jumping but now it can be turned into boolean again
 	private boolean memoryFinished = false;
 	private boolean writebackFinished = false;
 	private int writebackFinishedAtCycleNumber = -1;

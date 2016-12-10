@@ -2,35 +2,35 @@ package Laurenz.Pipelining;
 
 import Laurenz.Models.Instruction;
 import Laurenz.Models.InternalRegister;
-import controller.PipelineMapController;
-import controller.RegistersController;
+import Laurenz.Controllers.MIPSModules.PipelineMapController;
+import  Laurenz.Controllers.MIPSModules.RegistersController;
 import org.apache.commons.lang3.StringUtils;
 import Laurenz.Controllers.MIPSModules.OpcodeMaker;
-import Laurenz.Pipelining.UpdatedPipeline;
 
 import java.math.BigInteger;
 import java.util.NoSuchElementException;
 
 public class Execute extends RunPipeline {
 
-	public Execute(InternalRegister ir, UpdatedPipeline pipelineService) {
-		super(ir, pipelineService);
+	public Execute(InternalRegister ir, UpdatedPipeline pipelining) {
+		super(ir, pipelining);
 	}
 
 	@Override
 	public void run(int cycleNumber) {
 		try {
 			if (queue.peekFirst() != null && queue.peekFirst().isDecodeFinished()) {
-				Instruction ins = queue.remove();
+				/* Get instruction from queue */
+				Instruction inst = queue.remove();
 
-				String command = ins.getCommand().toUpperCase();
+				String command = inst.getCommand().toUpperCase();
 				String aluOutput = "";
 				String cond = "0";
-
 				BigInteger imm = new BigInteger(ir.getIDEXIMM(), 16);
 
 				/* I-Type */
 				if (command.equals("LD") || command.equals("SD") || command.equals("DADDIU")) {
+					/* A + Imm */
 					BigInteger a = new BigInteger(ir.getIDEXA(), 16);
 					aluOutput = a.add(imm).toString(16).toUpperCase();
 					aluOutput = StringUtils.leftPad(aluOutput, 16, "0");
@@ -38,6 +38,7 @@ public class Execute extends RunPipeline {
 				/* R-Type */
 				else if (command.equals("OR") || command.equals("DSUBU") || command.equals("SLT")
 						|| command.equals("NOP")) {
+					/* A op B */
 					BigInteger a = new BigInteger(ir.getIDEXA(), 16);
 					BigInteger b = new BigInteger(ir.getIDEXB(), 16);
 					if (command.equals("OR")) {
@@ -58,17 +59,24 @@ public class Execute extends RunPipeline {
 				if (command.equals("J"))
 					cond = "1";
 
-				/* BNE? */
+				/* BNE */
+				//System.out.println(ir.getIDEXA() + " " + ir.getIDEXB());
+				if(command.equals("BNE") && !ir.getIDEXA().equals(ir.getIDEXB()))
+					cond = "1";
+				else if (command.equals("BNE") && ir.getIDEXA().equals(ir.getIDEXB()))
+					cond = "0";
 
+				/* Setting Values */
 				ir.setEXMEMALUOutput(aluOutput);
 				ir.setEXMEMCond(cond);
 				ir.setEXMEMIR(ir.getIDEXIR());
 				ir.setEXMEMB(ir.getIDEXB());
 
-				PipelineMapController.setMapValue("EX", ins.getIndex(), cycleNumber);
-				ins.setExecuteFinished(1);
-				pipelining.addInstructionTo("MEM", ins.getIndex());
-				pipelining.addInstructionTo("WB", ins.getIndex());
+				/* Current instruction processing is finished, add to pipeline map */
+				PipelineMapController.setMapValue("EX", inst.getIndex(), cycleNumber);
+				inst.setExecuteFinished(1);
+				pipelining.addInstructionTo("MEM", inst.getIndex());
+				pipelining.addInstructionTo("WB", inst.getIndex());
 			}
 		} catch (NoSuchElementException e) {
 

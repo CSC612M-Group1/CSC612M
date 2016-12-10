@@ -46,6 +46,8 @@ public class PipelinePanel
 		jTable.setFont(new Font("Courier", Font.PLAIN, 12));
 
 		TableColumnModel tcm = jTable.getColumnModel();
+		tcm.getColumn(0).setPreferredWidth(200);
+
 		jTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		jScrollPane = new JScrollPane(jTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);

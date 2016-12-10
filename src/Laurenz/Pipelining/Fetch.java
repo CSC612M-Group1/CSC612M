@@ -2,10 +2,9 @@ package Laurenz.Pipelining;
 
 import Laurenz.Models.Instruction;
 import Laurenz.Models.InternalRegister;
-import controller.PipelineMapController;
-import controller.RegistersController;
+import Laurenz.Controllers.MIPSModules.PipelineMapController;
+import Laurenz.Controllers.MIPSModules.RegistersController;
 import Laurenz.Controllers.MIPSModules.OpcodeMaker;
-import Laurenz.Pipelining.UpdatedPipeline;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.NoSuchElementException;
@@ -22,31 +21,29 @@ public class Fetch extends RunPipeline {
 	@Override
 	public void run(int cycleNumber) {
 		try {
-			// Fix such tht IF of instruction 1 should stall when ID of
-			// instruction 0 has not yet executed.
-			// Possible solution would be to lock IF/ID.IR in IF and release in
-			// ID.
-			Instruction peek = queue.peek();
-
+			Instruction peek = queue.peek(); // Takes a look at the head of the queue
 			Instruction idPeek = pipelining.peekAtIDService();
 
 			if (idPeek != null && idPeek.getIndex() == prevLineNumber) {
-				System.out.println("Waiting for Decode");
+				System.out.println("Waiting for Decode"); // Data Hazard Stall
 			} else if (peek != null) {
 				if ((peek.isDecodeFinished() == true && peek.isWritebackFinished() == false) || (peek.isDecodeFinished()
 						&& peek.isWritebackFinished() && peek.getWritebackFinishedAtCycleNumber() == cycleNumber)) {
-					System.out.println("Need to wait");
-				} else {
-					Instruction ins = queue.remove();
-					PipelineMapController.setMapValue("IF", ins.getIndex(), cycleNumber);
+					System.out.println("Waiting for Writeback"); // Fetch is done after WB, stall till WB is finished
+				}
+				/* FETCH START! */
+				else {
+					/* Get instruction from queue */
+					Instruction inst = queue.remove();
 
 					String opcode = ir.getIFIDIR();
 					String binary = null;
 					if (opcode != null) {
 						binary = opcodeMaker.convertHexToBinary(opcode, 32);
 					}
-					if (binary != null && binary.substring(0, 6).equals("000100")
-							&& isNotEqualRegisters(binary.substring(6, 11), binary.substring(11, 16))) { // BNE
+					/* BNE - Branching Condition */
+					if (binary != null && binary.substring(0, 6).equals("000101")
+							&& isNotEqualRegisters(binary.substring(6, 11), binary.substring(11, 16))) {
 						int npc;
 						if (ir.getIFIDNPC() != null) {
 							npc = Integer.parseInt(ir.getIFIDNPC(), 16);
@@ -57,28 +54,36 @@ public class Fetch extends RunPipeline {
 						String immediate = StringUtils.leftPad(binary.substring(16), 32, binary.substring(16, 17));
 						long l = Long.parseLong(immediate, 2);
 						int imm = (int) l * 4;
+						/* NPC + Imm << 2 */
 						String hex = StringUtils.leftPad(Integer.toHexString(npc + imm), 16, "0").toUpperCase();
 						ir.setIFIDNPC(hex);
 						ir.setPC(hex);
-					} else if (binary != null && binary.substring(0, 6).equals("000010")) { // J
-						String address = binary.substring(8) + "00";
+					}
+					/* J */
+					else if (binary != null && binary.substring(0, 6).equals("000010")) {
+						String address = binary.substring(8) + "00"; // Pad two 0s to get to the target address
 						String hex = opcodeMaker.convertBinaryToHex(address).toUpperCase();
 						ir.setIFIDNPC(hex);
 						ir.setPC(hex);
-					} else {
-						String npc = StringUtils.leftPad(Integer.toHexString((ins.getIndex() + 1) * 4), 16, "0")
+					}
+					/* If instruction is not Branch nor Jump */
+					else {
+						/* PC + 4 */
+						String npc = StringUtils.leftPad(Integer.toHexString((inst.getIndex() + 1) * 4), 16, "0")
 								.toUpperCase();
 						ir.setIFIDNPC(npc);
 						ir.setPC(npc);
-						pipelining.addInstructionTo("ID", ins.getIndex());
+						pipelining.addInstructionTo("ID", inst.getIndex());
 					}
-					ir.setIFIDIR(ins.getHexOpcode());
+					ir.setIFIDIR(inst.getHexOpcode());
 
-					prevLineNumber = ins.getIndex();
-					int nextInsLineNumber = Integer.parseInt(ir.getIFIDNPC(), 16) / 4;
-					pipelining.addInstructionTo("IF", nextInsLineNumber);
-					ins.resetPipelineStatus();
-					ins.setFetchFinished(true);
+					/* Current instruction processing is finished, add to pipeline map */
+					PipelineMapController.setMapValue("IF", inst.getIndex(), cycleNumber);
+					prevLineNumber = inst.getIndex();
+					int nextInstructionLineNumber = Integer.parseInt(ir.getIFIDNPC(), 16) / 4;
+					pipelining.addInstructionTo("IF", nextInstructionLineNumber);
+					inst.resetPipelineStatus();
+					inst.setFetchFinished(true);
 				}
 			}
 		} catch (NoSuchElementException e) {
@@ -87,23 +92,21 @@ public class Fetch extends RunPipeline {
 	}
 
 	private void addRemainingFunctionsToQueue(int instructionNumber) {
-
 		pipelining.addInstructionTo("WB", instructionNumber);
 	}
 
-	private boolean isNotEqualRegisters(String regBin1, String regBin2) {
-		// for BNE
-		if (regBin1 == null || regBin2 == null)
+	/* Not Equal Function for BNE */
+	private boolean isNotEqualRegisters(String reg1, String reg2) {
+		if (reg1 == null || reg2 == null)
 			return false;
 		else {
-			int index1 = Integer.parseInt(regBin1, 2);
-			int index2 = Integer.parseInt(regBin2, 2);
+			int index1 = Integer.parseInt(reg1, 2);
+			int index2 = Integer.parseInt(reg2, 2);
 			String val1 = RegistersController.getInstance().getValue(index1, 1);
 			String val2 = RegistersController.getInstance().getValue(index2, 1);
 			if (!val1.equals(val2))
 				return true;
-			else
-				return false;
+			else return false;
 		}
 
 	}
