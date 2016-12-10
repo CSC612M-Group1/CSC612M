@@ -1,5 +1,6 @@
 package Laurenz.Views.Panels;
 
+import Laurenz.Models.Register;
 import Laurenz.Models.RegisterTable;
 import Laurenz.Views.MainWindow;
 
@@ -9,6 +10,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class RegisterPanel
 {
@@ -48,6 +50,11 @@ public class RegisterPanel
 		jScrollPane.setSize( jPanel.getSize() );
 		jTable.setShowGrid(true);
 		jPanel.add(jScrollPane);
+	}
+
+	public void setRegisterValues(ArrayList<Register> registers)
+	{
+
 	}
 
 	public RegisterPanel getRegisterPanel() {

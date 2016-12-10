@@ -1,5 +1,6 @@
 package Laurenz.Models;
 
+import Laurenz.GeneralUtility.Print;
 import Laurenz.Views.MainWindow;
 import org.apache.commons.lang3.StringUtils;
 
@@ -38,7 +39,7 @@ public class CodeTable extends AbstractTableModel
 
 	public void setInstruction(Instruction inst, int row)
 	{
-		String line = inst.getLine().substring(0, inst.getLine().length() - 1);
+		String line = inst.getLine().substring( 0, inst.getLine().length() );
 
 		codes[row][1] 	= inst.getOpcode();
 		codes[row][2]   = inst.getLabel();
@@ -88,6 +89,19 @@ public class CodeTable extends AbstractTableModel
 	public Object getValueAt(int rowIndex, int columnIndex)
 	{
 		return codes[rowIndex][columnIndex];
+	}
+
+	@Override
+	public boolean isCellEditable(int row, int column)
+	{ 	// custom isCellEditable function
+		//setCellEditable(row, column, true);
+		Print.ln("Clicked Button");
+		return true;
+	}
+
+	public void setCellEditable(int row, int col, boolean value)
+	{
+		this.fireTableCellUpdated(row, col);
 	}
 
 	public void setValueAt(Object val, int row, int col)

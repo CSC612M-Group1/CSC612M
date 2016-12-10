@@ -52,6 +52,7 @@ public class CodePanel
 		tcm.getColumn(2).setPreferredWidth(130);
 
 		jTable.setShowGrid(true);
+
 		jScrollPane.setSize( jPanel.getSize());
 		jPanel.add(jScrollPane);
 

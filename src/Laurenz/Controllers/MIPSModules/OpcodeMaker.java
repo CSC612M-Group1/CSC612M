@@ -6,16 +6,25 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class OpcodeMaker
 {
 
 	ArrayList<Instruction> instructions;
 
+
+
 	public OpcodeMaker()
 	{
 
 	}
+
+	public static void opcodeMap()
+	{
+		HashMap<String, Integer> opcodeMap = new HashMap<>();
+
+ 	}
 
 	public ArrayList<Instruction> populateInstructionOpcodes(ArrayList<Instruction> instructions)
 	{
@@ -26,8 +35,8 @@ public class OpcodeMaker
 
 		for (int i = 0; i < instructions.size(); i++)
 		{
-			instruction = updatedInstructions.get(i);
-			opcode = setHexOpcode(i, instruction);
+			instruction = updatedInstructions.get( i );
+			opcode = setHexOpcode( i, instruction );
 			instruction.setOpcode( opcode );
 			updatedInstructions.set(i, instruction);
 		}
@@ -35,9 +44,13 @@ public class OpcodeMaker
 		return updatedInstructions;
 	}
 
+//	"OR", "DSUBU", "SLT", "NOP",
+//			"BNE", "LD", "SD", "SW", "DADDIU",
+//			"J"
+
 	public String setHexOpcode(int i, Instruction instruction)
 	{
-		String opcode, command, rs ,rd, rt, imm, hexOpcode;
+		String opcode, command, rs = "" ,rd = "", rt = "", imm = "", hexOpcode = "", func = "";
 		int opcodeDecimal = 0;
 
 		command = instruction.getCommand();
@@ -48,20 +61,36 @@ public class OpcodeMaker
 		* */
 		if( command.equalsIgnoreCase("DADDIU") )
 		{
-			opcodeDecimal = 25;
+			opcodeDecimal = 25; // decimal equivalent of the opcode
 			opcode 	= StringUtils.leftPad( Integer.toBinaryString(opcodeDecimal), 6, "0");
 			rs 		= getRsToBinary( instruction.getRs(), 5 );
+			rt 		= "";
 			rd 		= getRsToBinary( instruction.getRd(), 5);
 			imm		= convertHexToBinary( instruction.getImm(), 16);
 
-			hexOpcode = opcode + rs + rd + imm;
+			// hexOpcode = opcode + rs + rd + imm;
 
+		}
+		else if ( command.equalsIgnoreCase("DSUBU") )
+		{
+			opcode	= "000000";
+			rs 		= getRsToBinary( instruction.getRs(), 5);
+			rt 		= getRsToBinary( instruction.getRt(), 5);
+			rd 		= getRsToBinary( instruction.getRd(), 5);
+			imm 	= "00000";
+			func 	= "101111";
 		}
 		else
 		{
 			hexOpcode = "NaN";
+			opcode = "";
+			rs = "";
+			rd = "";
+			imm = "";
 		}
 
+		hexOpcode = opcode + rs + rt + rd + imm + func;
+		Print.ln("OPCODE in Binary: " + opcode + " " + rs + " " + rt + " " + rd + " " + imm + " " +  func);
 		hexOpcode = convertBinaryToHex(hexOpcode);
 		hexOpcode = hexOpcode.toUpperCase();
 		Print.ln("OPCODE in Hex: " + hexOpcode);
