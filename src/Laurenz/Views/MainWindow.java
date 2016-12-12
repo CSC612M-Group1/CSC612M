@@ -5,7 +5,7 @@ import java.awt.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import Laurenz.Controllers.InputController;
+import Laurenz.Controllers.*;
 import Laurenz.Models.Instruction;
 import Laurenz.Views.Panels.*;
 
@@ -33,7 +33,10 @@ public class MainWindow
 	private JPanel inputPanel;
 	/* Controller */
 	private InputController inputController;
-
+	private MemoryController memoryController;
+	private RegisterController registerController;
+	private PipelineController pipelineController;
+	private InternalRegisterController internalRegisterController;
 	public MainWindow()
 	{
 		startMainWindow();
@@ -49,7 +52,12 @@ public class MainWindow
 			this.createFrame();
 		}
 
-		inputController = new InputController(this);
+		inputController 			= new InputController(this);
+		memoryController 			= new MemoryController(this);
+		registerController			= new RegisterController(this);
+		internalRegisterController 	= new InternalRegisterController(this);
+		pipelineController 			= new PipelineController(this);
+
 	}
 
 	private void createRequiredPanels()
@@ -80,7 +88,7 @@ public class MainWindow
 		mainPanel.setLayout( new GridLayout(2,1) );
 
 		/* initialize mainFrame settings */
-		mainFrame = new JFrame("CSC612M CP2 2016-17 T2 - GROUP 1 - 6:00PM-9:00PM - A1103 - SENSEI ROGER");
+		mainFrame = new JFrame("CSC612M CP2 microMIPS 2016-17 T2 - GROUP 1 - 6:00PM-9:00PM - A1103 - SENSEI ROGER");
 		mainFrame.setResizable(true);
 		mainFrame.setBackground(Color.pink); // does not work :(
 		mainFrame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
@@ -239,5 +247,45 @@ public class MainWindow
 
 	public void setInternalRegisterPanelView(InternalRegisterPanel internalRegisterPanelView) {
 		this.internalRegisterPanelView = internalRegisterPanelView;
+	}
+
+	public InputController getInputController() {
+		return inputController;
+	}
+
+	public void setInputController(InputController inputController) {
+		this.inputController = inputController;
+	}
+
+	public InternalRegisterController getInternalRegisterController() {
+		return internalRegisterController;
+	}
+
+	public void setInternalRegisterController(InternalRegisterController internalRegisterController) {
+		this.internalRegisterController = internalRegisterController;
+	}
+
+	public PipelineController getPipelineController() {
+		return pipelineController;
+	}
+
+	public void setPipelineController(PipelineController pipelineController) {
+		this.pipelineController = pipelineController;
+	}
+
+	public RegisterController getRegisterController() {
+		return registerController;
+	}
+
+	public void setRegisterController(RegisterController registerController) {
+		this.registerController = registerController;
+	}
+
+	public MemoryController getMemoryController() {
+		return memoryController;
+	}
+
+	public void setMemoryController(MemoryController memoryController) {
+		this.memoryController = memoryController;
 	}
 }

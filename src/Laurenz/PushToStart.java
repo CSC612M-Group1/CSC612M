@@ -26,7 +26,8 @@ public class PushToStart
 		JFrame frame;
 
 		frame = mw.getFrame();
-
+		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		frame.setExtendedState(frame.getExtendedState()|JFrame.MAXIMIZED_BOTH);
 		frame.setVisible(true);
 	}
 }

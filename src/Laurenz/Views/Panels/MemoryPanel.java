@@ -59,7 +59,9 @@ public class MemoryPanel
 		Print.ln("Created table for MemoryPanel() ");
 	}
 
-	public void resetValues()
+
+
+	public void clearTable()
 	{
 		this.memoryTable.clearTable();
 	}

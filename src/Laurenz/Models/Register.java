@@ -10,7 +10,8 @@ public class Register
 	private String R;
 	private String instructionType;
 	private int index;
-
+	private boolean isLocked;
+	private int cycleNumberReleased;
 
 	public Register(int index, String value )
 	{
@@ -51,5 +52,21 @@ public class Register
 
 	public void setInstructionType(String instructionType) {
 		this.instructionType = instructionType;
+	}
+
+	public boolean isLocked() {
+		return isLocked;
+	}
+
+	public void setLocked(boolean locked) {
+		isLocked = locked;
+	}
+
+	public int getCycleNumberReleased() {
+		return cycleNumberReleased;
+	}
+
+	public void setCycleNumberReleased(int cycleNumberReleased) {
+		this.cycleNumberReleased = cycleNumberReleased;
 	}
 }
