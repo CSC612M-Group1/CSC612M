@@ -80,7 +80,7 @@ public class MainWindow
 		mainPanel.setLayout( new GridLayout(2,1) );
 
 		/* initialize mainFrame settings */
-		mainFrame = new JFrame("CSC612M CP2 2016-17 T2 - GROUP 1 - 6:00PM-9:00PM - A1103 - SENSEI ROGER");
+		mainFrame = new JFrame("CSC612M CP2 microMIPS 2016-17 T2 - GROUP 1 - 6:00PM-9:00PM - A1103 - SENSEI ROGER");
 		mainFrame.setResizable(true);
 		mainFrame.setBackground(Color.pink); // does not work :(
 		mainFrame.setSize(Toolkit.getDefaultToolkit().getScreenSize());

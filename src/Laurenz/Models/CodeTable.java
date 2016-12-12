@@ -39,7 +39,11 @@ public class CodeTable extends AbstractTableModel
 
 	public void setInstruction(Instruction inst, int row)
 	{
+<<<<<<< HEAD
 		String line = inst.getLine().substring( 0, inst.getLine().length() );
+=======
+		String line = inst.getLine().substring(0, inst.getLine().length());
+>>>>>>> NN
 
 		codes[row][1] 	= inst.getOpcode();
 		codes[row][2]   = inst.getLabel();

@@ -94,7 +94,7 @@ public class RegisterTable extends AbstractTableModel
 			// warning message
 			JOptionPane.showMessageDialog(mw.getFrame(), "Exceeded 18 characters for register value");
 		}
-		else if ( value.length() < 16 && col == 1 && row > 0)
+		else if ( value.length() <= 16 && col == 1 && row > 0)
 		{
 			try
 			{
@@ -106,7 +106,6 @@ public class RegisterTable extends AbstractTableModel
 			{
 				JOptionPane.showMessageDialog(mw.getFrame(), "Something's wrong with: " + value);
 			}
-
 		}
 	}
 
