@@ -8,6 +8,8 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.swing.*;
+
 public class OpcodeMaker
 {
 
@@ -29,8 +31,7 @@ public class OpcodeMaker
     public ArrayList<Instruction> populateInstructionOpcodes(ArrayList<Instruction> instructions)
     {
         ArrayList<Instruction> updatedInstructions = instructions;
-        int opcodeValue, funcCodeValue;
-        String command = "", opcode = "";
+        String opcode = "";
         Instruction instruction;
 
         for (int i = 0; i < instructions.size(); i++)
@@ -44,8 +45,56 @@ public class OpcodeMaker
         return updatedInstructions;
     }
 
+    //for J
+    public int findInstructionIndex(String label)
+    {
+        int instr_index = -1;
+        
+        for (Instruction i : instructions)
+        {
+            if(label.equals(i.getLabel()))
+            {
+                instr_index = i.getIndex();
+                break;
+            }
+        }
+        
+        if(instr_index==-1)
+        {
+            JOptionPane.showMessageDialog(null, "Label not found: " + label, "Error", JOptionPane.ERROR_MESSAGE);
+            instr_index = -1;
+        }
+        
+        return instr_index;
+    }
+    
+    //for BNE
+    public int findInstructionOffset(String label, int ref)
+    {
+        int instr_index = -1;
+        
+        for (Instruction i : instructions)
+        {
+            if(label.equals(i.getLabel()))
+            {
+                instr_index = i.getIndex();
+            }
+        }
+        
+        if(instr_index>=0)
+        {
+            instr_index = instr_index-(ref+1);
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "Label not found: " + label, "Error", JOptionPane.ERROR_MESSAGE);
+            instr_index = -1;
+        }
+        
+        return instr_index;
+    }
 //  "OR", "DSUBU", "SLT", "NOP",
-//  "BNE", "LD", "SD", "SW", "DADDIU",
+//  "BNE", "LD", "SD", "DADDIU",
 //  "J"
 
     public String setHexOpcode(int i, Instruction instruction)
@@ -81,59 +130,62 @@ public class OpcodeMaker
             func    = "101111";
         }
         else if( command.equalsIgnoreCase("OR") )
-		{
-			opcode 	= "000000";
-			rs 		= getRsToBinary( instruction.getRs(), 5);
-			rt 		= getRsToBinary( instruction.getRt(), 5);
-			rd 		= getRsToBinary( instruction.getRd(), 5);
-			imm     = "00000";
-			func	= "100101";
-		}
-		else if( command.equalsIgnoreCase("SLT") )
-		{
-			opcode 	= "000000";
-			rs 		= getRsToBinary( instruction.getRs(), 5);
-			rt 		= getRsToBinary( instruction.getRt(), 5);
-			rd 		= getRsToBinary( instruction.getRd(), 5);
-			imm     = "00000";
-			func	= "101010";
-		}
-		else if( command.equalsIgnoreCase("LD") )
-		{
-			opcodeDecimal = 55;
-			opcode 	= StringUtils.leftPad( Integer.toBinaryString(opcodeDecimal), 6, "0");
-			rs 	    = getRsToBinary( instruction.getBase(), 5);
-			rt 		= getRsToBinary( instruction.getRt(), 5);
-			imm  	= convertHexToBinary( instruction.getOffset(), 16);
-		}
-		else if( command.equalsIgnoreCase("SD") )
-		{
-			opcodeDecimal = 63;
-			opcode 	= StringUtils.leftPad( Integer.toBinaryString(opcodeDecimal), 6, "0");
-			rs 	    = getRsToBinary( instruction.getBase(), 5);
-			rt 		= getRsToBinary( instruction.getRt(), 5);
-			imm	    = convertHexToBinary( instruction.getOffset(), 16);
-		}
-		else if( command.equalsIgnoreCase("BNE") )
-		{
-			opcodeDecimal = 5;
-			opcode 	= StringUtils.leftPad( Integer.toBinaryString(opcodeDecimal), 6, "0");
-			rs 		= getRsToBinary( instruction.getRs(), 5);
-			rt 		= getRsToBinary( instruction.getRt(), 5);
-			imm  	= convertHexToBinary( instruction.getImm(), 16);
-		}
-		else if( command.equalsIgnoreCase("J") )
-		{
-			opcodeDecimal = 2;
-			opcode 	= StringUtils.leftPad( Integer.toBinaryString(opcodeDecimal), 6, "0");
-			//instr_index
-			imm  	= convertHexToBinary( instruction.getOffset(), 26);
-		}
-		else if( command.equalsIgnoreCase("NOP") )
-		{
-			opcodeDecimal = 0;
-			opcode 	= StringUtils.leftPad( Integer.toBinaryString(opcodeDecimal), 32, "0");
-		}
+        {
+            opcode  = "000000";
+            rs      = getRsToBinary( instruction.getRs(), 5);
+            rt      = getRsToBinary( instruction.getRt(), 5);
+            rd      = getRsToBinary( instruction.getRd(), 5);
+            imm     = "00000";
+            func    = "100101";
+        }
+        else if( command.equalsIgnoreCase("SLT") )
+        {
+            opcode  = "000000";
+            rs      = getRsToBinary( instruction.getRs(), 5);
+            rt      = getRsToBinary( instruction.getRt(), 5);
+            rd      = getRsToBinary( instruction.getRd(), 5);
+            imm     = "00000";
+            func    = "101010";
+        }
+        else if( command.equalsIgnoreCase("LD") )
+        {
+            opcodeDecimal = 55;
+            opcode  = StringUtils.leftPad( Integer.toBinaryString(opcodeDecimal), 6, "0");
+            rs      = getRsToBinary( instruction.getBase(), 5);
+            rt      = getRsToBinary( instruction.getRt(), 5);
+            imm     = convertHexToBinary( instruction.getOffset(), 16);
+        }
+        else if( command.equalsIgnoreCase("SD") )
+        {
+            opcodeDecimal = 63;
+            opcode  = StringUtils.leftPad( Integer.toBinaryString(opcodeDecimal), 6, "0");
+            rs      = getRsToBinary( instruction.getBase(), 5);
+            rt      = getRsToBinary( instruction.getRt(), 5);
+            imm     = convertHexToBinary( instruction.getOffset(), 16);
+        }
+        else if( command.equalsIgnoreCase("BNE") )
+        {
+            opcodeDecimal = 5;
+            opcode  = StringUtils.leftPad( Integer.toBinaryString(opcodeDecimal), 6, "0");
+            rs      = getRsToBinary( instruction.getRs(), 5);
+            rt      = getRsToBinary( instruction.getRt(), 5);
+            
+            int tmp = findInstructionOffset(instruction.getOffset(), instruction.getIndex());
+            imm     = StringUtils.leftPad( Integer.toBinaryString(tmp), 16, "0");
+        }
+        else if( command.equalsIgnoreCase("J") )
+        {
+            opcodeDecimal = 2;
+            opcode  = StringUtils.leftPad( Integer.toBinaryString(opcodeDecimal), 6, "0");
+            //instr_index
+            int tmp = findInstructionIndex(instruction.getOffset());
+            imm     = StringUtils.leftPad( Integer.toBinaryString(tmp), 26, "0");
+        }
+        else if( command.equalsIgnoreCase("NOP") )
+        {
+            opcodeDecimal = 0;
+            opcode  = StringUtils.leftPad( Integer.toBinaryString(opcodeDecimal), 32, "0");
+        }
         else
         {
             hexOpcode = "NaN";

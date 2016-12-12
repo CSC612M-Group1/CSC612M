@@ -13,9 +13,10 @@ public class Instruction
 	private String offset;
 	private String base;
 	private String label;
-	public Instruction(int index, String line, String command, String opcode, String rd, String rs, String rt, String imm, String offset, String base)
+	public Instruction(int index, String label, String line, String command, String opcode, String rd, String rs, String rt, String imm, String offset, String base)
 	{
 		this.index = index;
+		this.label = label;
 		this.line = line;
 		this.command = command;
 		this.opcode = opcode;

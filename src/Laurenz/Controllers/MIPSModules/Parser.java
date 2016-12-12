@@ -8,12 +8,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.swing.*;
+
 public class Parser
 {
 
     public static void main(String[] args)
     {
-        String text = "DADDIU R1, R1, #4444 \nDADDIU R2, R0, #1111";
+        String text = "J L1 \nL1: DADDIU R1, R1, #4444 \nDADDIU R2, R0, #1111";
         Parser p = new Parser();
 
         p.parse(text);
@@ -27,7 +29,7 @@ public class Parser
     {
         /* Declare variables */
         ArrayList<Instruction> instructions;
-        String singleLine, command;
+        String singleLine, command, label;
         String[] lines;
         /* Instruction set for the group */
         String[] instructionsSetB =
@@ -39,7 +41,7 @@ public class Parser
         /* values */
         instructions = new ArrayList<>();
         text = text.replaceAll("(?m)^[ \t]*\r?\n", "");
-        lines        = text.split("\\r?\\n");
+        lines = text.split("\\r?\\n");
 
         for(int i = 0; i < lines.length; i++ )
         {
@@ -48,8 +50,21 @@ public class Parser
             Scanner scanner = new Scanner(singleLine);
             Print.ln(singleLine);
 
-            String[] temp = singleLine.split(" ");
-            command = temp[0];
+            String[] temp_0 = singleLine.split(" ");
+            String[] temp;
+            if(temp_0[0].endsWith(":"))
+            {
+                label = temp_0[0].split(":")[0];
+                command = temp_0[1];
+                temp = Arrays.copyOfRange(temp_0, 1,  temp_0.length);
+            }
+            else
+            {
+                label = null;
+                command = temp_0[0];
+                temp = temp_0;
+            }
+            
             if(temp.length == 1 && command.equalsIgnoreCase("NOP"))
             {
                 Print.ln("command: " + command );
@@ -84,32 +99,35 @@ public class Parser
             }
             else
             {
-                Print.ln("Syntax Error");
+                JOptionPane.showMessageDialog(null, "Invalid code: " + singleLine, "Error", JOptionPane.ERROR_MESSAGE);
+                Print.ln("Invalid code");
                 return null;
             }
             Instruction ins;
-            ins = formInstruction(i, singleLine, command, registers);
+            ins = formInstruction(i, label, singleLine, command, registers);
 
 
             instructions.add(ins);
-//          /* checks if the line has content */
-//          if (scanner.hasNext()) {
-//              String firstArg = scanner.next();
-//              String[] registers;
-//              command = scanner.next();
-//
-//              Instruction ins = null;
-//
-//                  ins = getInstruction(i, singleLine, command, registers);
-//                  instructions.add(ins);
-//              scanner.close();
-//          }
+          /* checks if the line has content */
+          /*
+          if (scanner.hasNext()) {
+              String firstArg = scanner.next();
+              String[] registers;
+              command = scanner.next();
+
+              Instruction ins = null;
+
+                  ins = getInstruction(i, singleLine, command, registers);
+                  instructions.add(ins);
+              scanner.close();
+          }
+          */
         }
 
         return instructions;
     }
 
-    public Instruction formInstruction(int i, String singleLine, String command, String[] registers)
+    public Instruction formInstruction(int i, String label, String singleLine, String command, String[] registers)
     {
         Instruction instruction;
         String rd, rs, rt, imm, offset, base;
@@ -117,67 +135,104 @@ public class Parser
         rd  = registers[0];
         rs  = registers[1];
         rt  = registers[2];
-        imm = registers[2];
+        imm = null;
         offset = null;
         base = null;
 
         if( command.equalsIgnoreCase( "DADDIU" ) )
         {
+            imm = rt;
+            if(!checkImmediate(singleLine, imm)) return null;
             rt = rd;
+            if(!checkRegister(singleLine, rt)) return null;
+            
             rd = null;
-            if( imm.startsWith("#") )
-            {
-                imm = imm.substring(1);
-            }
         }
         else if( command.equalsIgnoreCase( "DSUBU" ) || command.equalsIgnoreCase( "OR" ) || command.equalsIgnoreCase( "SLT" ))
         {
-            imm = null;
+            if(!checkRegister(singleLine, rd)) return null;
+            if(!checkRegister(singleLine, rs)) return null;
+            if(!checkRegister(singleLine, rt)) return null;
         }
         else if( command.equalsIgnoreCase( "LD" ) || command.equalsIgnoreCase( "SD" ) )
         {
             base = rt;
+            if(!checkRegister(singleLine, base)) return null;
             rt = rd;
-            rd = null;
+            if(!checkRegister(singleLine, rt)) return null;
             offset = rs;
-            if( offset.startsWith("#") )
-            {
-                offset = offset.substring(1);
-            }
+            if(!checkOffset(singleLine, offset)) return null;
+            
+            rd = null;
             rs = null;
-            imm = null;
         }
         else if( command.equalsIgnoreCase( "BNE" ) )
         {
-            offset = rt;
+            offset = rt;    //label
             rt = rs;
+            if(!checkRegister(singleLine, rt)) return null;
             rs = rd;
+            if(!checkRegister(singleLine, rs)) return null;
+            
             rd = null;
-            imm = null;
         }
         else if( command.equalsIgnoreCase( "J" ) )
         {
-            offset = rd;
+            offset = rd;    //label
+            
             rd = null;
             rs = null;
             rt = null;
-            imm = null;
         }
         else if( command.equalsIgnoreCase( "NOP" ) )
         {
             rd = null;
             rs = null;
             rt = null;
-            imm = null;
         }
         else
         {
+            JOptionPane.showMessageDialog(null, "Invalid instruction: " + singleLine, "Error", JOptionPane.ERROR_MESSAGE);
             Print.ln("Invalid Instruction");
             return null;
         }
 
-        instruction = new Instruction(i, singleLine, command, null, rd, rs, rt, imm, offset, base);
+        instruction = new Instruction(i, label, singleLine, command, null, rd, rs, rt, imm, offset, base);
 
         return instruction;
     }
+    
+    public boolean checkRegister(String singleLine, String R)
+    {
+        if( R.length()<2 || !(R.startsWith("r") || R.startsWith("R")) || Integer.parseInt(R.substring(1))<0 || Integer.parseInt(R.substring(1))>31)
+        {
+            JOptionPane.showMessageDialog(null, "Invalid register: " + R + " in " + singleLine, "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+    
+    public boolean checkImmediate(String singleLine, String I)
+    {
+        if( I.startsWith("#") && I.substring(1).length() == 4 )
+        {
+            I = I.substring(1);
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "Invalid immediate value: " + I + " in " + singleLine, "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
+    }    
+    
+    public boolean checkOffset(String singleLine, String O)
+    {
+        if( O.length() != 4 )
+        {
+            JOptionPane.showMessageDialog(null, "Invalid offset value: " + O + " in " + singleLine, "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
+    }  
 }
